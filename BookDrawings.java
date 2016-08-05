@@ -27,9 +27,8 @@ public class BookDrawings extends JPanel
         
         add(text);
         text.setEditable(true);
-		buttonDraw.addActionListener(this);
+	buttonDraw.addActionListener(this);
         add(buttonDraw);
-        nodos = new LinkedList<Nodo>();
         addMouseListener (this);
         addMouseMotionListener (this);
         text.addActionListener(this);
@@ -83,7 +82,8 @@ public class BookDrawings extends JPanel
         }
         return matriz;
     }
-    
+
+    /*
     public int[][] graph2Laplacian(){
         
         int deleted = 0;
@@ -191,6 +191,7 @@ public class BookDrawings extends JPanel
         return graph;
         
     }
+
     
     public void toLaplacian(){
         String dirName = "files";
@@ -310,7 +311,7 @@ public class BookDrawings extends JPanel
         catch (Exception err) {
             err.printStackTrace();
         }
-    }
+    }*/
     
     public void paintComponent (Graphics g) {
         super.paintComponent( g );
@@ -322,7 +323,8 @@ public class BookDrawings extends JPanel
         
         g.setColor (Color.white);
         g.fillRect (0, 0, w, h);
-        
+	
+        /*
         //if(!(mainflag == 2 && binvflag == 1))
         // Dibuja las aristas
         for( int i=0; i<nodos.size(); i++ )
@@ -369,6 +371,7 @@ public class BookDrawings extends JPanel
                 g.drawString("" + (allowed),nodos.get(i).x-nz,nodos.get(i).y-2*nz);
             g.drawOval(nodos.get(i).x-nz,nodos.get(i).y-nz,2*nz,2*nz);
         }
+	*/
         
     }
     
@@ -382,138 +385,129 @@ public class BookDrawings extends JPanel
     
     public void actionPerformed (ActionEvent event) {
 	Object s = event.getSource( );
-	if (s == buttonD){
+	if (s == buttonDraw){
 	    
 	}
-	else if (s == itemLaTex){
-			
-	    toLaTeX();
-	    runLaTeX();
-
-	}
-	else if (s == itemForbDigraph){
-	    computeForbD();
-	    runForbD();
-	}
-	else if (s == itemPython){
-			
-	    toPython();
-
-	}
 	else if (s == text) {
-		String cadena = text.getText();
-		int nodosize=0;
-		if(cadena.charAt(0)== 'K'){ // Grafica Completa
-			if(cadena.length() > 1)
-			nodosize = Integer.parseInt(cadena.substring(1,cadena.length()));
+	    String cadena = text.getText();
+	    int entroACasos = 0;
+	    
+	    if(cadena.charAt(0) == 'K'){
+		for(int i = 1; i < cadena.length(); i++)
+		    if( Character.getNumericValue(cadena.charAt(i)) >= 0 && Character.getNumericValue(cadena.charAt(i)) <= 9)
+			System.out.println("Entro " + cadena.charAt(i));
+		    else
+			System.out.println("Salio " + cadena.charAt(i));
+		// if(cadena.length() > 1)
+		//     nodosize = Integer.parseInt(cadena.substring(1,cadena.length()));
 			
-			int w=getSize ( ).width;
-			int h=getSize ( ).height;
-			cx = w/2;
-			cy = h/2;
-			nodos.clear();
+		// int w=getSize ( ).width;
+		// int h=getSize ( ).height;
+		// cx = w/2;
+		// cy = h/2;
+		// nodos.clear();
 			
-			for(int j=0; j<nodosize; j++){
-				Nodo nodo = new Nodo();
-				nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
-				nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
+		// for(int j=0; j<nodosize; j++){
+		//     Nodo nodo = new Nodo();
+		//     nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
+		//     nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
 				
-				nodos.add(nodo);
-				for(int k=0; k<nodosize; k++)
-				if(k != j)
-				nodo.list.add(k);
-			}
-			repaint();
-		}
-		else if(cadena.charAt(0)== 'C'){ // Ciclo
-			if(cadena.length() > 1)
-			nodosize = Integer.parseInt(cadena.substring(1,cadena.length()));
+		//     nodos.add(nodo);
+		//     for(int k=0; k<nodosize; k++)
+		// 	if(k != j)
+		// 	    nodo.list.add(k);
+		// }
+		// repaint();
+	    }
+	    else if(cadena.charAt(0)== 'C'){ // Ciclo
+	    // 	if(cadena.length() > 1)
+	    // 	    nodosize = Integer.parseInt(cadena.substring(1,cadena.length()));
 			
-			int w=getSize ( ).width;
-			int h=getSize ( ).height;
-			cx = w/2;
-			cy = h/2;
-			nodos.clear();
+	    // 	int w=getSize ( ).width;
+	    // 	int h=getSize ( ).height;
+	    // 	cx = w/2;
+	    // 	cy = h/2;
+	    // 	nodos.clear();
 			
-			for(int j=0; j<nodosize; j++){
-				Nodo nodo = new Nodo();
-				nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
-				nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
+	    // 	for(int j=0; j<nodosize; j++){
+	    // 	    Nodo nodo = new Nodo();
+	    // 	    nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
+	    // 	    nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
 				
-				if(j < nodosize -1)
-				nodo.list.add(j+1);
-				else
-				nodo.list.add(0);
+	    // 	    if(j < nodosize -1)
+	    // 		nodo.list.add(j+1);
+	    // 	    else
+	    // 		nodo.list.add(0);
 				
-				nodos.add(nodo);
-			}
-			repaint();
-		} 
-		else if(cadena.charAt(0)== 'P'){ // Camino
-			if(cadena.length() > 1)
-			nodosize = Integer.parseInt(cadena.substring(1,cadena.length()));
+	    // 	    nodos.add(nodo);
+	    // 	}
+	    // 	repaint();
+	    } 
+	    else if(cadena.charAt(0)== 'P'){ // Camino
+	    // 	if(cadena.length() > 1)
+	    // 	    nodosize = Integer.parseInt(cadena.substring(1,cadena.length()));
 			
-			int w=getSize ( ).width;
-			int h=getSize ( ).height;
-			cx = w/2;
-			cy = h/2;
-			nodos.clear();
+	    // 	int w=getSize ( ).width;
+	    // 	int h=getSize ( ).height;
+	    // 	cx = w/2;
+	    // 	cy = h/2;
+	    // 	nodos.clear();
 			
-			for(int j=0; j<nodosize; j++){
-				Nodo nodo = new Nodo();
-				nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
-				nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
+	    // 	for(int j=0; j<nodosize; j++){
+	    // 	    Nodo nodo = new Nodo();
+	    // 	    nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
+	    // 	    nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
 				
-				if(j < nodosize -1)
-				nodo.list.add(j+1);
+	    // 	    if(j < nodosize -1)
+	    // 		nodo.list.add(j+1);
 				
-				nodos.add(nodo);
-			}
-			repaint();
-		}
-		else if(cadena.charAt(0)== 'T'){ // Grafica Trivial
-			if(cadena.length() > 1)
-			nodosize = Integer.parseInt(cadena.substring(1,cadena.length()));
+	    // 	    nodos.add(nodo);
+	    // 	}
+	    // 	repaint();
+	    // }
+	    // else if(cadena.charAt(0)== 'T'){ // Grafica Trivial
+	    // 	if(cadena.length() > 1)
+	    // 	    nodosize = Integer.parseInt(cadena.substring(1,cadena.length()));
 			
-			int w=getSize ( ).width;
-			int h=getSize ( ).height;
-			cx = w/2;
-			cy = h/2;
-			nodos.clear();
+	    // 	int w=getSize ( ).width;
+	    // 	int h=getSize ( ).height;
+	    // 	cx = w/2;
+	    // 	cy = h/2;
+	    // 	nodos.clear();
 			
-			for(int j=0; j<nodosize; j++){
-				Nodo nodo = new Nodo();
-				nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
-				nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
+	    // 	for(int j=0; j<nodosize; j++){
+	    // 	    Nodo nodo = new Nodo();
+	    // 	    nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
+	    // 	    nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
 				
-				nodos.add(nodo);
-			}
-			repaint();
-		}
-		else if(cadena.charAt(0)== '{'){ // Desde Matriz
-			int [][] matriz = string2matrix(cadena);
-			nodosize = matriz.length;
+	    // 	    nodos.add(nodo);
+	    // 	}
+	    // 	repaint();
+	    }
+	    // else if(cadena.charAt(0)== '{'){ // Desde Matriz
+	    // 	int [][] matriz = string2matrix(cadena);
+	    // 	nodosize = matriz.length;
 			
-			int w=getSize ( ).width;
-			int h=getSize ( ).height;
-			cx = w/2;
-			cy = h/2;
-			nodos.clear();
+	    // 	int w=getSize ( ).width;
+	    // 	int h=getSize ( ).height;
+	    // 	cx = w/2;
+	    // 	cy = h/2;
+	    // 	nodos.clear();
 			
-			for(int j=0; j<nodosize; j++){
-				Nodo nodo = new Nodo();
-				nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
-				nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
+	    // 	for(int j=0; j<nodosize; j++){
+	    // 	    Nodo nodo = new Nodo();
+	    // 	    nodo.x = (int) -(200* Math.cos( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cx;
+	    // 	    nodo.y = (int) (200* Math.sin( ( (double) 2*Math.PI*j)/ (double) nodosize)) + cy;
 				
-				nodos.add(nodo);
-				for(int k=0; k<nodosize; k++)
-				if(matriz[j][k] != 0 && k != j)
-				nodo.list.add(k);
-			}
-			repaint();
-		}
+	    // 	    nodos.add(nodo);
+	    // 	    for(int k=0; k<nodosize; k++)
+	    // 		if(matriz[j][k] != 0 && k != j)
+	    // 		    nodo.list.add(k);
+	    // 	}
+	    // 	repaint();
+	    // }
 	}
-}    
+    }    
     
     public static void main (String[ ] args) {
         BookDrawings inter = new BookDrawings ( );
